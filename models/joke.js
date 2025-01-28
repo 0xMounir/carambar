@@ -1,11 +1,11 @@
-const { dataTypes } = require("sequelize");
+const { DataTypes } = require("sequelize");
 const { sequelize } = require("./index");
 
-const joke = sequelize.define("Joke", {
+const Joke = sequelize.define("Joke", {
   content: {
-    type: dataTypes.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
   },
 });
 
-module.exports = joke;
+module.exports = Joke;
