@@ -2,7 +2,11 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("./index");
 
 const Joke = sequelize.define("Joke", {
-  content: {
+  question: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  answer: {
     type: DataTypes.STRING,
     allowNull: false,
   },
