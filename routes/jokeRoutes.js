@@ -13,6 +13,6 @@ router.get("/", getAllJokes);
 
 router.get("/random", getRandomJoke);
 
-router.get("/:id", getRandomJoke);
+router.get("/:id", getJokeId);
 
 module.exports = router;

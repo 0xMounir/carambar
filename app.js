@@ -8,8 +8,6 @@ const jokeRoutes = require("./routes/jokeRoutes.js");
 const jokesData = require("./data/jokes.js");
 const Joke = require("./models/joke");
 
-app.use(cors());
-
 const options = {
   definition: {
     openapi: "3.0.0",
@@ -24,10 +22,11 @@ const options = {
 const openapiSpecification = swaggerJsdoc(options);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 
+app.use(cors());
 app.use(express.json());
 app.use("/v2/blagues", jokeRoutes);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5140;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
@@ -52,3 +51,8 @@ sequelize.sync().then(async () => {
     console.log("Jokes already exist in the database.");
   }
 });
+
+sequelize
+  .authenticate()
+  .then(() => console.log("Connected to SQLite database"))
+  .catch((err) => console.error("Connection Error", err));
