@@ -13,44 +13,36 @@ const options = {
     openapi: "3.0.0",
     info: {
       title: "API Carambar",
-      version: "1.0.0",
+      version: "2.0.0",
     },
+    servers: [
+      {
+        url: "http://localhost:3000",
+      },
+    ],
   },
-  apis: ["app.js"], // files containing annotations as above
+  apis: ["./routes/*.js"], // files containing annotations as above
 };
 
-const openapiSpecification = swaggerJsdoc(options);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openapiSpecification));
+const specs = swaggerJsdoc(options);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use(cors());
 app.use(express.json());
 app.use("/v2/blagues", jokeRoutes);
 
-const PORT = process.env.PORT || 5140;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-sequelize.sync().then(async () => {
-  console.log("Synchronized database");
-
-  const existingJokes = await Joke.findAll();
-  if (existingJokes.length === 0) {
-    await Promise.all(
-      jokesData.map(async (joke) => {
-        const newJoke = await Joke.create({
-          question: joke.question,
-          answer: joke.answer,
-        });
-        console.log(`Added joke: ${newJoke.question} / ${newJoke.answer}`);
-      })
-    );
-    console.log("Jokes added to db");
-  } else {
-    console.log("Jokes already exist in the database.");
-  }
-});
+sequelize
+  .sync({ alter: true })
+  .then(() => {
+    console.log("Synchronized database");
+  })
+  .catch((err) => console.error("Error syncing database", err));
 
 sequelize
   .authenticate()
