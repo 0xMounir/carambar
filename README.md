@@ -39,4 +39,4 @@ npm install
 npm start
 ```
 
-## 🔗 [**Lien repo partie Front**](https://github.com/0xMounir/carambar-front)
+## 🔗 [**Lien repositorie partie Front**](https://github.com/0xMounir/carambar-front)
